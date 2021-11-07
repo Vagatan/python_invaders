@@ -16,6 +16,14 @@ class Ship:
         # Każdy nowy statek kosmiczny pojawia się na dole ekranu
         self.rect.midbottom = self.screen_rect.midbottom
 
+        # Opcje wskazujące na poruszanie się statku
+        self.moving_right = False
+
+    def update(self):
+        """Uaktualnienie położenia statku na podstawie opcji wskazującej na jego ruch"""
+        if self.moving_right:
+            self.rect.x += 1
+
     def blitme(self):
         """Wyświetlanie statku kosmicznego w jego aktualnym położeniu"""
         self.screen.blit(self.image, self.rect)
