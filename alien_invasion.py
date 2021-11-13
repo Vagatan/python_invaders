@@ -7,6 +7,7 @@ from ship import Ship
 from alien import Alien
 from bullet import Bullet
 
+
 class AlienInvasion:
     """Ogólna klasa przeznaczona do zarządzania zasobami i sposobem działania gry."""
 
@@ -71,16 +72,26 @@ class AlienInvasion:
             self.bullets.add(new_bullet)
 
     def _update_bullets(self):
-        """Uaktualnienie położenia pocisków i usunięcie tych niewidocznych na ekranie."""
-        self.bullets.update()
-
         # Usunięcie pocisków, które znajdują się poza ekranem.
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):
+        """Reakcja na kolizję między pociskiem i obcym."""
+        # Usunięcie wszystkich pocisków i obcych, między którymi doszło do kolizji.
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        if not self.aliens:
+            # Pozbycie się istniejących pocisków i utworzenie nowej floty
+            self.bullets.empty()
+            self._create_fleet()
+
     def _update_aliens(self):
-        """Sprawdzenie, czy flota obcych znajduje się przy krawędzi, a następnie uaktualnienie położenie wszystkich obcych we flocie."""
+        """Sprawdzenie, czy flota obcych znajduje się przy krawędzi, a następnie uaktualnienie położenie
+        wszystkich obcych we flocie."""
         self._check_fleet_edges()
         self.aliens.update()
 
