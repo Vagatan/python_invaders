@@ -72,6 +72,9 @@ class AlienInvasion:
             self.bullets.add(new_bullet)
 
     def _update_bullets(self):
+        """Uaktualnienie położenia pocisków i usunięcie tych niewidocznych na ekranie."""
+        self.bullets.update()
+
         # Usunięcie pocisków, które znajdują się poza ekranem.
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
